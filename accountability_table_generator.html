@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Accountability Sheet Generator</title>
+        <script>
+            function generateList(){
+                let inStr = document.getElementById("nameList").value;
+                let nameList = inStr.split("\n");
+                let rows = document.getElementById("rows").value;
+                let cols = document.getElementById("cols").value;
+
+                if (nameList.length < rows * cols){
+                    let nameGrid = [];
+                    let outHTML = "<table>";
+
+                    nameList.sort();
+
+                    //fill list with names
+                    for (let x = 0; x < cols; x++){
+                        let curRow = [];
+
+                        for (let y = 0; y < rows; y++){
+                            let nameIdx = (x * rows) + y;
+
+                            if (nameIdx < nameList.length){
+                                curRow.push(nameList[nameIdx]);
+                            }
+                            else{
+                                curRow.push(" ");
+                            }
+                        }
+
+                        nameGrid.push(curRow);
+                    }
+
+                    //generate table
+                    for (let y = 0; y < rows; y++){
+                        let rowHTML = "<tr>";
+
+                        for (let x = 0; x < cols; x++){
+                            rowHTML += "<td>" + nameGrid[x][y] + "</td>"
+                        }
+
+                        rowHTML += "</tr>"
+                        outHTML += rowHTML;
+                    }
+
+                    outHTML += "</table>";
+                    //document.getElementById("testOut").innerHTML = outHTML;
+                    document.body.innerHTML = outHTML;
+                }
+                else{
+                    alert("ERROR: Using the currently entered row and column numbers, there will not be enough cells to hold all the entered names");
+                }
+            }
+        </script>
+        <style>
+            html, body{
+                height: 90%;
+            }
+
+            table{
+                table-layout: fixed;
+                border-collapse: collapse;
+                border: 1px solid black;
+                height: 100%;
+                width: 100%;
+                margin-bottom: 0px;
+            }
+
+            td{
+                font-size: 1em;
+                padding: 0.5em;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>Name List:</h3>
+        <textarea id="nameList" rows = "15" cols="50" placeholder="Joe Smoe&#10;Sally Seashells&#10;Ben Shmen"></textarea>
+        <br />
+        Rows: <input id="rows" type="number" value="10" />
+        Cols: <input id="cols" type="number" value="10" />
+        <br />
+        <input type="button" value="Generate" onclick="generateList();"/>
+        <div id="testOut"></div>
+    </body>
+</html>
