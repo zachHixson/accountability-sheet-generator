@@ -6,16 +6,20 @@
         <script>
             function generateList(){
                 let inStr = document.getElementById("nameList").value;
+                let title = document.getElementById("title").value;
                 let nameList = inStr.split("\n");
                 let rows = document.getElementById("rows").value;
                 let cols = document.getElementById("cols").value;
 
                 if (nameList.length < rows * cols){
                     let nameGrid = [];
-                    let outHTML = "<table>";
+                    let outHTML = "";
 
                     nameList.sort();
 
+                    outHTML += "<h2>" + title + "</h2>";
+                    outHTML += "<table>";
+                    
                     //fill list with names
                     for (let x = 0; x < cols; x++){
                         let curRow = [];
@@ -78,7 +82,8 @@
     </head>
 
     <body>
-        <h3>Name List:</h3>
+        Title: <input id="title" type="text" value="Accountability" /> <br />
+        Name List: <br />
         <textarea id="nameList" rows = "15" cols="50" placeholder="Joe Smoe&#10;Sally Seashells&#10;Ben Shmen"></textarea>
         <br />
         Rows: <input id="rows" type="number" value="10" />
