@@ -7,9 +7,12 @@
             function generateList(){
                 let inStr = document.getElementById("nameList").value;
                 let title = document.getElementById("title").value;
-                let nameList = inStr.split("\n");
+                let ui = document.getElementById("UI");
+                let output = document.getElementById("output");
+                let outUI = document.getElementById("outputUI");
                 let rows = document.getElementById("rows").value;
                 let cols = document.getElementById("cols").value;
+                let nameList = inStr.split("\n");
 
                 if (nameList.length < rows * cols){
                     let nameGrid = [];
@@ -51,17 +54,31 @@
                     }
 
                     outHTML += "</table>";
-                    //document.getElementById("testOut").innerHTML = outHTML;
-                    document.body.innerHTML = outHTML;
+                    ui.style.display = 'none';
+                    output.innerHTML = outHTML;
+                    output.innerHTML += outUI.innerHTML;
+                    output.style.display = 'block';
                 }
                 else{
                     alert("ERROR: Using the currently entered row and column numbers, there will not be enough cells to hold all the entered names");
                 }
             }
+
+            function edit(){
+                let ui = document.getElementById("UI");
+                let output = document.getElementById("output");
+
+                ui.style.display = 'block';
+                output.style.display = 'none';
+            }
         </script>
         <style>
             html, body{
                 height: 90%;
+            }
+
+            #output{
+                height:100%;
             }
 
             table{
@@ -78,18 +95,37 @@
                 padding: 0.5em;
                 border: 1px solid black;
             }
+
+            button{
+                margin: 0.5em;
+            }
+
+            @media print{
+                .no-print{
+                    display: none !important;
+                }
+            }
         </style>
     </head>
 
     <body>
-        Title: <input id="title" type="text" value="Accountability" /> <br />
-        Name List: <br />
-        <textarea id="nameList" rows = "15" cols="50" placeholder="Joe Smoe&#10;Sally Seashells&#10;Ben Shmen"></textarea>
-        <br />
-        Rows: <input id="rows" type="number" value="10" />
-        Cols: <input id="cols" type="number" value="10" />
-        <br />
-        <input type="button" value="Generate" onclick="generateList();"/>
-        <div id="testOut"></div>
+        <div id="UI">
+            Title: <input id="title" type="text" value="Accountability" /> <br />
+            Name List: <br />
+            <textarea id="nameList" rows = "15" cols="50" placeholder="Joe Smoe&#10;Sally Seashells&#10;Ben Shmen"></textarea>
+            <br />
+            Rows: <input id="rows" type="number" value="10" />
+            Cols: <input id="cols" type="number" value="10" />
+            <br />
+            <button onclick="generateList();">Generate</button>
+            <div id="testOut"></div>
+        </div>
+        <div id="output">
+            <!---->
+        </div>
+        <div id="outputUI" style="display: none !important;">
+            <button class="no-print" onclick="edit();">Edit</button>
+            <button class="no-print" onclick="window.print();">Print</button>
+        </div>
     </body>
 </html>
