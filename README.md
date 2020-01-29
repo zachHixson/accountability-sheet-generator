@@ -6,6 +6,9 @@ This is a simple tool I made to help a coworker. It simply sorts and fills a tab
 
 - Click `Clone or Download` and `Download ZIP`
 - Go to your downloads folder (`Start > File explorer > Downloads` or wherever you saved it to)
+- You should be able to double click the .zip file, and run `accountability_table_generator.html`
+
+**If you cannot run the .html file:**
 - Right click on `accountability-sheet-generator-master.zip` and click `Extract All` then click `Extract`
     - you can now delete the .zip file if you want to
 - Open the folder and run `accountability_table_generator.html`
