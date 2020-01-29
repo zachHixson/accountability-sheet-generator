@@ -4,40 +4,62 @@
         <meta charset="utf-8" />
         <title>Accountability Sheet Generator</title>
         <script>
+            class Name{
+                constructor(fName, lName){
+                    this.first = fName;
+                    this.last = lName;
+                }
+            }
+
             function generateList(){
                 let inStr = document.getElementById("nameList").value;
                 let title = document.getElementById("title").value;
                 let ui = document.getElementById("UI");
                 let output = document.getElementById("output");
                 let outUI = document.getElementById("outputUI");
+                let sortByLast = document.getElementById("lName").checked;
                 let rows = document.getElementById("rows").value;
                 let cols = document.getElementById("cols").value;
-                let nameList = inStr.split("\n");
+                let nameListRaw = inStr.split("\n");
 
-                if (nameList.length < rows * cols){
+                if (nameListRaw.length < rows * cols){
                     let nameGrid = [];
                     let outHTML = "";
+                    let nameList = [];
 
-                    nameList.sort();
+                    //parse raw names
+                    for (let i = 0; i < nameListRaw.length; i++){
+                        let curName = nameListRaw[i].trim().split(/\s/);
+                        if (curName != ""){
+                            nameList.push(new Name(curName[0], curName[1]));
+                        }
+                    }
+
+                    if (sortByLast){
+                        nameList.sort((a, b) => (a.last > b.last) ? 1 : -1);
+                    }
+                    else{
+                        nameList.sort((a, b) => (a.first > b.first) ? 1 : -1);
+                    }
 
                     outHTML += "<h2>" + title + "</h2>";
                     outHTML += "<table>";
-                    
+
                     //fill list with names
                     for (let x = 0; x < cols; x++){
                         let curRow = [];
 
                         for (let y = 0; y < rows; y++){
                             let nameIdx = (x * rows) + y;
-
                             if (nameIdx < nameList.length){
-                                curRow.push(nameList[nameIdx]);
+                                let curName = nameList[nameIdx].first + ", " + nameList[nameIdx].last;
+
+                                curRow.push(curName);
                             }
                             else{
-                                curRow.push(" ");
+                                curRow.push("");
                             }
                         }
-
                         nameGrid.push(curRow);
                     }
 
@@ -113,9 +135,14 @@
             Title: <input id="title" type="text" value="Accountability" /> <br />
             Name List: <br />
             <textarea id="nameList" rows = "15" cols="50" placeholder="Joe Smoe&#10;Sally Seashells&#10;Ben Shmen"></textarea>
+            <div>
+                Sort by: <br />
+                <input type="radio" id="fName" name="sortby" value="first" />First<br />
+                <input type="radio" id="lName" name="sortby" value="last" checked/>Last<br />
+            </div>
             <br />
             Rows: <input id="rows" type="number" value="10" />
-            Cols: <input id="cols" type="number" value="10" />
+            Cols: <input id="cols" type="number" value="11" />
             <br />
             <button onclick="generateList();">Generate</button>
             <div id="testOut"></div>
